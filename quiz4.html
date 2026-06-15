@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 4 Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<script src="../script.js"></script>
+<body>
+
+<header class="top-bar">
+  <div class="logo"><span class="logo-main">Pascal</span><span class="logo-accent">Learn</span><span class="logo-sub">SFedU</span></div>
+  <nav class="nav"><a href="index.html">Home</a><a href="quiz.html">All Quizzes</a></nav>
+  
+<button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section">
+<h1>Lesson 4 Quiz: IF Statement</h1>
+
+<form id="quizForm">
+
+<div class="card quiz-question" data-correct="b">
+<p>1. Which keyword starts a conditional statement?</p>
+<label><input type="radio" name="q1" value="a"> for</label><br>
+<label><input type="radio" name="q1" value="b"> if</label><br>
+<label><input type="radio" name="q1" value="c"> var</label>
+</div>
+
+<div class="card quiz-question" data-correct="a">
+<p>2. In the short form, what keyword follows the condition?</p>
+<label><input type="radio" name="q2" value="a"> then</label><br>
+<label><input type="radio" name="q2" value="b"> do</label><br>
+<label><input type="radio" name="q2" value="c"> repeat</label>
+</div>
+
+<div class="card quiz-question" data-correct="c">
+<p>3. What does else do?</p>
+<label><input type="radio" name="q3" value="a"> Always repeats code</label><br>
+<label><input type="radio" name="q3" value="b"> Declares a variable</label><br>
+<label><input type="radio" name="q3" value="c"> Runs code when the condition is False</label>
+</div>
+
+<div class="card quiz-question" data-correct="b">
+<p>4. Is a semicolon needed before else?</p>
+<label><input type="radio" name="q4" value="a"> Yes</label><br>
+<label><input type="radio" name="q4" value="b"> No</label><br>
+<label><input type="radio" name="q4" value="c"> Always optional</label>
+</div>
+
+<div class="card quiz-question" data-correct="a">
+<p>5. What block is used when there is more than one operator after then or else?</p>
+<label><input type="radio" name="q5" value="a"> begin..end</label><br>
+<label><input type="radio" name="q5" value="b"> start..stop</label><br>
+<label><input type="radio" name="q5" value="c"> open..close</label>
+</div>
+
+<div class="card quiz-question" data-correct="c">
+<p>6. If a = 5, what happens in: if a &gt; 7 then print(a-1)?</p>
+<label><input type="radio" name="q6" value="a"> It prints 4</label><br>
+<label><input type="radio" name="q6" value="b"> It prints 5</label><br>
+<label><input type="radio" name="q6" value="c"> It skips the print statement</label>
+</div>
+
+<div class="card quiz-question" data-correct="b">
+<p>7. If n is positive, task 1 says to:</p>
+<label><input type="radio" name="q7" value="a"> subtract 1</label><br>
+<label><input type="radio" name="q7" value="b"> add 1</label><br>
+<label><input type="radio" name="q7" value="c"> multiply by 10</label>
+</div>
+
+<div class="card quiz-question" data-correct="a">
+<p>8. Which function can check whether a number is even/odd?</p>
+<label><input type="radio" name="q8" value="a"> odd()</label><br>
+<label><input type="radio" name="q8" value="b"> write()</label><br>
+<label><input type="radio" name="q8" value="c"> div()</label>
+</div>
+
+<div class="card quiz-question" data-correct="c">
+<p>9. For age 18, the movie task should output:</p>
+<label><input type="radio" name="q9" value="a"> you should watch the cartoon</label><br>
+<label><input type="radio" name="q9" value="b"> you can take a walk</label><br>
+<label><input type="radio" name="q9" value="c"> you can watch this movie</label>
+</div>
+
+<div class="card quiz-question" data-correct="b">
+<p>10. If A = 6 and B = 2, and A is greater than B, what should happen in task 10?</p>
+<label><input type="radio" name="q10" value="a"> Nothing changes</label><br>
+<label><input type="radio" name="q10" value="b"> A and B are swapped</label><br>
+<label><input type="radio" name="q10" value="c"> Both become zero</label>
+</div>
+
+<button type="button" id="checkQuiz" class="btn primary">Submit Quiz</button>
+<pre id="quizResult"></pre>
+
+</form>
+</section>
+
+<script>
+const STUDENT_API = "http://localhost:5010";
+
+document.getElementById("checkQuiz").onclick = async () => {
+  let score = 0;
+  const questions = document.querySelectorAll(".quiz-question");
+
+  questions.forEach((q, index) => {
+    const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+    if (selected && selected.value === q.dataset.correct) score++;
+  });
+
+  const result = document.getElementById("quizResult");
+  result.textContent = `Your score: ${score} / ${questions.length}`;
+
+  const username = localStorage.getItem("username");
+  if (!username) {
+    result.textContent += "\nLogin first to save your score.";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${STUDENT_API}/quiz/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        quizName: "Lesson 4 Quiz",
+        score: score
+      })
+    });
+
+    result.textContent += res.ok ? "\nScore saved successfully." : "\nScore was not saved.";
+  } catch {
+    result.textContent += "\nConnection failed.";
+  }
+};
+</script>
+
+</body>
+</html>

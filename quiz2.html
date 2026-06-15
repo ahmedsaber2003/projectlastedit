@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 2 Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<script src="../script.js"></script>
+<body>
+
+<header class="top-bar">
+  <div class="logo">
+    <span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+    <span class="logo-sub">SFedU</span>
+  </div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="quiz.html">All Quizzes</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section">
+  <h1>Lesson 2 Quiz: Integers, div and mod</h1>
+
+  <form id="quizForm">
+
+    <div class="card quiz-question" data-correct="b">
+      <p>1. What does div calculate?</p>
+      <label><input type="radio" name="q1" value="a"> Remainder</label><br>
+      <label><input type="radio" name="q1" value="b"> Integer quotient</label><br>
+      <label><input type="radio" name="q1" value="c"> Multiplication</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="a">
+      <p>2. What is 10 div 2?</p>
+      <label><input type="radio" name="q2" value="a"> 5</label><br>
+      <label><input type="radio" name="q2" value="b"> 0</label><br>
+      <label><input type="radio" name="q2" value="c"> 2</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="c">
+      <p>3. What does mod calculate?</p>
+      <label><input type="radio" name="q3" value="a"> Quotient</label><br>
+      <label><input type="radio" name="q3" value="b"> Sum</label><br>
+      <label><input type="radio" name="q3" value="c"> Remainder</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="b">
+      <p>4. What is 22 mod 7?</p>
+      <label><input type="radio" name="q4" value="a"> 3</label><br>
+      <label><input type="radio" name="q4" value="b"> 1</label><br>
+      <label><input type="radio" name="q4" value="c"> 7</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="a">
+      <p>5. Which formula restores N using quotient d, divisor K, and remainder m?</p>
+      <label><input type="radio" name="q5" value="a"> N = d * K + m</label><br>
+      <label><input type="radio" name="q5" value="b"> N = d + K + m</label><br>
+      <label><input type="radio" name="q5" value="c"> N = d - K + m</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="c">
+      <p>6. How do you get the hundreds digit of 123?</p>
+      <label><input type="radio" name="q6" value="a"> 123 mod 10</label><br>
+      <label><input type="radio" name="q6" value="b"> 123 mod 100</label><br>
+      <label><input type="radio" name="q6" value="c"> 123 div 100</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="b">
+      <p>7. How do you get the units digit of 123?</p>
+      <label><input type="radio" name="q7" value="a"> 123 div 100</label><br>
+      <label><input type="radio" name="q7" value="b"> 123 mod 10</label><br>
+      <label><input type="radio" name="q7" value="c"> 123 div 10</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="a">
+      <p>8. How many full meters are in 250 centimeters?</p>
+      <label><input type="radio" name="q8" value="a"> 2</label><br>
+      <label><input type="radio" name="q8" value="b"> 50</label><br>
+      <label><input type="radio" name="q8" value="c"> 250</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="c">
+      <p>9. Which expression gets the tens digit of a three-digit number n?</p>
+      <label><input type="radio" name="q9" value="a"> n mod 10</label><br>
+      <label><input type="radio" name="q9" value="b"> n div 100</label><br>
+      <label><input type="radio" name="q9" value="c"> (n mod 100) div 10</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="b">
+      <p>10. What is 65 mod 10?</p>
+      <label><input type="radio" name="q10" value="a"> 6</label><br>
+      <label><input type="radio" name="q10" value="b"> 5</label><br>
+      <label><input type="radio" name="q10" value="c"> 0</label>
+    </div>
+
+    <button type="button" id="checkQuiz" class="btn primary">Submit Quiz</button>
+    <pre id="quizResult"></pre>
+
+  </form>
+</section>
+
+<script>
+const STUDENT_API = "http://localhost:5010";
+
+document.getElementById("checkQuiz").onclick = async () => {
+  let score = 0;
+  const questions = document.querySelectorAll(".quiz-question");
+
+  questions.forEach((q, index) => {
+    const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+    if (selected && selected.value === q.dataset.correct) score++;
+  });
+
+  const result = document.getElementById("quizResult");
+  result.textContent = `Your score: ${score} / ${questions.length}`;
+
+  const username = localStorage.getItem("username");
+  if (!username) {
+    result.textContent += "\nLogin first to save your score.";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${STUDENT_API}/quiz/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        quizName: "Lesson 2 Quiz",
+        score: score
+      })
+    });
+
+    result.textContent += res.ok ? "\nScore saved successfully." : "\nScore was not saved.";
+  } catch {
+    result.textContent += "\nConnection failed.";
+  }
+};
+</script>
+
+</body>
+</html>

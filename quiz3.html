@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 3 Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<script src="../script.js"></script>
+<body>
+
+<header class="top-bar">
+  <div class="logo"><span class="logo-main">Pascal</span><span class="logo-accent">Learn</span><span class="logo-sub">SFedU</span></div>
+  <nav class="nav"><a href="index.html">Home</a><a href="quiz.html">All Quizzes</a></nav><button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section">
+<h1>Lesson 3 Quiz: Boolean Expressions and Conditions</h1>
+
+<form id="quizForm">
+
+<div class="card quiz-question" data-correct="b">
+<p>1. A Boolean expression returns:</p>
+<label><input type="radio" name="q1" value="a"> Integer or real</label><br>
+<label><input type="radio" name="q1" value="b"> True or False</label><br>
+<label><input type="radio" name="q1" value="c"> Only text</label>
+</div>
+
+<div class="card quiz-question" data-correct="a">
+<p>2. If a = 6, what is the result of a > 5?</p>
+<label><input type="radio" name="q2" value="a"> True</label><br>
+<label><input type="radio" name="q2" value="b"> False</label><br>
+<label><input type="radio" name="q2" value="c"> Error</label>
+</div>
+
+<div class="card quiz-question" data-correct="b">
+<p>3. If a = 5, what is the result of a > 5?</p>
+<label><input type="radio" name="q3" value="a"> True</label><br>
+<label><input type="radio" name="q3" value="b"> False</label><br>
+<label><input type="radio" name="q3" value="c"> 5</label>
+</div>
+
+<div class="card quiz-question" data-correct="a">
+<p>4. If a = 5, what is the result of a >= 5?</p>
+<label><input type="radio" name="q4" value="a"> True</label><br>
+<label><input type="radio" name="q4" value="b"> False</label><br>
+<label><input type="radio" name="q4" value="c"> 0</label>
+</div>
+
+<div class="card quiz-question" data-correct="c">
+<p>5. Which logical operation means “not”?</p>
+<label><input type="radio" name="q5" value="a"> and</label><br>
+<label><input type="radio" name="q5" value="b"> or</label><br>
+<label><input type="radio" name="q5" value="c"> not</label>
+</div>
+
+<div class="card quiz-question" data-correct="b">
+<p>6. In PascalABC.NET, multiple conditions should be placed in:</p>
+<label><input type="radio" name="q6" value="a"> square brackets</label><br>
+<label><input type="radio" name="q6" value="b"> round brackets</label><br>
+<label><input type="radio" name="q6" value="c"> quotation marks</label>
+</div>
+
+<div class="card quiz-question" data-correct="a">
+<p>7. What is the result of (year &lt; 20) or (year &gt; 18) if year = 19?</p>
+<label><input type="radio" name="q7" value="a"> True</label><br>
+<label><input type="radio" name="q7" value="b"> False</label><br>
+<label><input type="radio" name="q7" value="c"> Error</label>
+</div>
+
+<div class="card quiz-question" data-correct="c">
+<p>8. Which function returns True if an integer is odd?</p>
+<label><input type="radio" name="q8" value="a"> even()</label><br>
+<label><input type="radio" name="q8" value="b"> div()</label><br>
+<label><input type="radio" name="q8" value="c"> odd()</label>
+</div>
+
+<div class="card quiz-question" data-correct="a">
+<p>9. What is odd(5)?</p>
+<label><input type="radio" name="q9" value="a"> True</label><br>
+<label><input type="radio" name="q9" value="b"> False</label><br>
+<label><input type="radio" name="q9" value="c"> 5</label>
+</div>
+
+<div class="card quiz-question" data-correct="b">
+<p>10. What is odd(6)?</p>
+<label><input type="radio" name="q10" value="a"> True</label><br>
+<label><input type="radio" name="q10" value="b"> False</label><br>
+<label><input type="radio" name="q10" value="c"> 6</label>
+</div>
+
+<button type="button" id="checkQuiz" class="btn primary">Submit Quiz</button>
+<pre id="quizResult"></pre>
+
+</form>
+</section>
+
+<script>
+const STUDENT_API = "http://localhost:5010";
+
+document.getElementById("checkQuiz").onclick = async () => {
+  let score = 0;
+  const questions = document.querySelectorAll(".quiz-question");
+
+  questions.forEach((q, index) => {
+    const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+    if (selected && selected.value === q.dataset.correct) score++;
+  });
+
+  const result = document.getElementById("quizResult");
+  result.textContent = `Your score: ${score} / ${questions.length}`;
+
+  const username = localStorage.getItem("username");
+  if (!username) {
+    result.textContent += "\nLogin first to save your score.";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${STUDENT_API}/quiz/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        quizName: "Lesson 3 Quiz",
+        score: score
+      })
+    });
+
+    result.textContent += res.ok ? "\nScore saved successfully." : "\nScore was not saved.";
+  } catch {
+    result.textContent += "\nConnection failed.";
+  }
+};
+</script>
+
+</body>
+</html>

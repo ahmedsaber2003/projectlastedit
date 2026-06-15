@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 1 Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<script src="../script.js"></script>
+<body>
+
+<header class="top-bar">
+  <div class="logo">
+    <span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+    <span class="logo-sub">SFedU</span>
+  </div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="quiz.html">All Quizzes</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section">
+  <h1>Lesson 1 Quiz: Introduction to PascalABC.NET</h1>
+
+  <form id="quizForm">
+
+    <div class="card quiz-question" data-correct="b">
+      <p>1. PascalABC.NET is based on which platform?</p>
+      <label><input type="radio" name="q1" value="a"> Java</label><br>
+      <label><input type="radio" name="q1" value="b"> .NET</label><br>
+      <label><input type="radio" name="q1" value="c"> PHP</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="a">
+      <p>2. Which keyword is used to declare variables?</p>
+      <label><input type="radio" name="q2" value="a"> var</label><br>
+      <label><input type="radio" name="q2" value="b"> let</label><br>
+      <label><input type="radio" name="q2" value="c"> define</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="c">
+      <p>3. Which operator is used for assignment?</p>
+      <label><input type="radio" name="q3" value="a"> =</label><br>
+      <label><input type="radio" name="q3" value="b"> ==</label><br>
+      <label><input type="radio" name="q3" value="c"> :=</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="b">
+      <p>4. Which command prints output with a new line?</p>
+      <label><input type="radio" name="q4" value="a"> print</label><br>
+      <label><input type="radio" name="q4" value="b"> writeln</label><br>
+      <label><input type="radio" name="q4" value="c"> read</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="a">
+      <p>5. Which function reads an integer?</p>
+      <label><input type="radio" name="q5" value="a"> ReadInteger()</label><br>
+      <label><input type="radio" name="q5" value="b"> ReadText()</label><br>
+      <label><input type="radio" name="q5" value="c"> Print()</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="c">
+      <p>6. Which short operator adds 2 to variable a?</p>
+      <label><input type="radio" name="q6" value="a"> a == 2</label><br>
+      <label><input type="radio" name="q6" value="b"> a =+ 2</label><br>
+      <label><input type="radio" name="q6" value="c"> a += 2</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="b">
+      <p>7. Which command is used for formatted output?</p>
+      <label><input type="radio" name="q7" value="a"> ReadReal</label><br>
+      <label><input type="radio" name="q7" value="b"> WritelnFormat</label><br>
+      <label><input type="radio" name="q7" value="c"> var</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="a">
+      <p>8. Which code swaps x and y?</p>
+      <label><input type="radio" name="q8" value="a"> (x, y) := (y, x)</label><br>
+      <label><input type="radio" name="q8" value="b"> x := y</label><br>
+      <label><input type="radio" name="q8" value="c"> swap x y</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="c">
+      <p>9. What does ReadReal() read?</p>
+      <label><input type="radio" name="q9" value="a"> Text</label><br>
+      <label><input type="radio" name="q9" value="b"> Integer number</label><br>
+      <label><input type="radio" name="q9" value="c"> Real number</label>
+    </div>
+
+    <div class="card quiz-question" data-correct="b">
+      <p>10. What is the perimeter of a square with side a?</p>
+      <label><input type="radio" name="q10" value="a"> a * a</label><br>
+      <label><input type="radio" name="q10" value="b"> 4 * a</label><br>
+      <label><input type="radio" name="q10" value="c"> 2 * a</label>
+    </div>
+
+    <button type="button" id="checkQuiz" class="btn primary">Submit Quiz</button>
+    <pre id="quizResult"></pre>
+
+  </form>
+</section>
+
+<script>
+const STUDENT_API = "http://localhost:5010";
+
+document.getElementById("checkQuiz").onclick = async () => {
+  let score = 0;
+  const questions = document.querySelectorAll(".quiz-question");
+
+  questions.forEach((q, index) => {
+    const selected = document.querySelector(`input[name="q${index + 1}"]:checked`);
+    if (selected && selected.value === q.dataset.correct) score++;
+  });
+
+  const result = document.getElementById("quizResult");
+  result.textContent = `Your score: ${score} / ${questions.length}`;
+
+  const username = localStorage.getItem("username");
+  if (!username) {
+    result.textContent += "\nLogin first to save your score.";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${STUDENT_API}/quiz/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        quizName: "Lesson 1 Quiz",
+        score: score
+      })
+    });
+
+    result.textContent += res.ok ? "\nScore saved successfully." : "\nScore was not saved.";
+  } catch {
+    result.textContent += "\nConnection failed.";
+  }
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn Pascal | SFedUus</title>
+<link rel="stylesheet" href="styles.css?v=10" />
+</head>
+<script>
+const COMPILER_API = "http://localhost:5009/api/run";
+// or your Cloudflare URL later
+
+async function runMainCompiler() {
+
+    const code =
+        document.getElementById("mainCompilerCode").value.trim();
+
+    const output =
+        document.getElementById("mainCompilerOutput");
+
+    if (!code) {
+        output.textContent = "Please write code first.";
+        return;
+    }
+
+    output.textContent = "Compiling...";
+
+    try {
+
+        const response = await fetch(COMPILER_API, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                code: code
+            })
+        });
+
+        const data = await response.json();
+
+        output.textContent =
+            data.output || "No output returned";
+
+    } catch (err) {
+
+        output.textContent =
+            "Compiler connection failed.";
+
+        console.error(err);
+    }
+}
+</script>
+<body>
+
+  <header class="top-bar">
+    <div class="logo">
+      <span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+      <span class="logo-sub">SFedUu</span>
+    </div>
+
+    <nav class="nav">
+      <a href="#hero">Home</a>
+      <a href="#account">Account</a>
+      <a href="#lessons">Lessons</a>
+      <a href="#playground">Playground</a>
+      <a href="quiz.html">Quiz</a>
+    </nav>
+
+<button class="theme-toggle" onclick="document.body.classList.toggle('light')">🌙</button> </header>
+
+  <section id="hero" class="hero">
+    <div class="hero-text">
+      <span class="hero-badge">SFedU Graduation Project</span>
+      <h1>Learn Pascal Programming</h1>
+      <p>
+        A simple and modern platform for Southern Federal University students to
+        learn Pascal, solve tasks, use the playground, and test their knowledge.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#lessons" class="btn primary">Start Learning</a>
+        <a href="#playground" class="btn secondary">Open Playground</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <h2>Example Pascal Program</h2>
+      <pre><code>program Hello;
+begin
+  writeln('Hello, world!');
+end.</code></pre>
+      <p class="hero-note">Start with the basics, then move to tasks and quizzes.</p>
+    </div>
+  </section>
+
+  <section id="account" class="section">
+    <h2>Student Account</h2>
+    <p>Create an account, sign in, and keep track of your best quiz score.</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <h3>Sign up</h3>
+        <input id="suEmail" type="email" placeholder="Email" />
+        <input id="suPass" type="password" placeholder="Password" />
+        <button id="btnSignup" class="btn primary">Sign up</button>
+        <p id="suMsg" class="status-text"></p>
+      </div>
+
+      <div class="card">
+        <h3>Login</h3>
+        <input id="liEmail" type="email" placeholder="Email" />
+        <input id="liPass" type="password" placeholder="Password" />
+        <button id="btnLogin" class="btn primary">Login</button>
+        <p id="liMsg" class="status-text"></p>
+      </div>
+
+      <div class="card">
+        <h3>Session</h3>
+        <p>Logged in as: <strong id="who">Guest</strong></p>
+        <p>Best quiz score: <strong id="bestScoreUi">0</strong></p>
+        <button id="btnLogout" class="btn secondary">Sign out</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="lessons" class="section">
+    <h2>Pascal Lessons</h2>
+    <p>Select a lesson to start learning.</p>
+
+    <div class="lesson-list">
+      <a href="lessons/lesson1.html">Lesson 1: Introduction to Pascal</a>
+      <a href="lessons/lesson2.html">Lesson 2: Variables and Data Types</a>
+      <a href="lessons/lesson3.html">Lesson 3: Conditions</a>
+      <a href="lessons/lesson4.html">Lesson 4: Loops</a>
+      <a href="lessons/lesson5.html">Lesson 5: Procedures and Functions</a>
+      <a href="lessons/lesson6.html">Lesson 6: Arrays</a>
+      <a href="lessons/lesson7.html">Lesson 7: Strings</a>
+      <a href="lessons/lesson8.html">Lesson 8: Records</a>
+      <a href="lessons/lesson9.html">Lesson 9: Files</a>
+      <a href="lessons/lesson10.html">Lesson 10: Sets</a>
+      <a href="lessons/lesson11.html">Lesson 11: Pointers</a>
+      <a href="lessons/lesson12.html">Lesson 12: Dynamic Arrays</a>
+      <a href="lessons/lesson13.html">Lesson 13: Recursion</a>
+      <a href="lessons/lesson14.html">Lesson 14: Sorting Algorithms</a>
+      <a href="lessons/lesson15.html">Lesson 15: Searching Algorithms</a>
+      <a href="lessons/lesson16.html">Lesson 16: Pascal Projects</a>
+    </div>
+  </section>
+
+  <section id="playground" class="section">
+  <h2>Pascal Playground</h2>
+  <p>Write Pascal code and run it using the integrated PascalABC.NET compiler.</p>
+
+  <textarea id="mainCompilerCode" class="task-code" rows="15">
+begin
+  writeln('Hello from PascalLearn!');
+end.
+  </textarea>
+
+  <br><br>
+
+  <button class="btn primary" onclick="runMainCompiler()">
+    Run Code
+  </button>
+
+  <pre id="mainCompilerOutput"></pre>
+</section>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> PascalLearn SFedU</p>
+  </footer>
+
+<script src="script.js?v=10"></script>
+</body>
+</html>
