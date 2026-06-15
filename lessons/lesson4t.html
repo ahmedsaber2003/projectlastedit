@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 4 Tasks | PascalLearn SFedU</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="logo"><span class="logo-main">Pascal</span><span class="logo-accent">Learn</span><span class="logo-sub">SFedU</span></div>
+  <nav class="nav">
+    <a href="../index.html">Home</a>
+    <a href="lesson4.html">Lesson 4</a>
+    <a href="../quiz4.html">Quiz</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section lesson-page">
+  <h1>Lesson 4 Tasks: IF Statement</h1>
+  <p>Practice using short and full forms of the IF statement.</p>
+
+  <div id="tasks"></div>
+
+  <a href="lesson4.html" class="btn primary">Back to Lesson 4</a>
+</section>
+
+<footer class="footer"><p>&copy; <span id="year"></span> PascalLearn SFedU</p></footer>
+
+<script>
+const COMPILER_API = "http://localhost:5009/api/run";
+
+const tasks = [
+  {
+    title: "Task 1: Positive number",
+    text: "If n = 5 is positive, add 1 to it.",
+    expected: "Expected output: 6",
+    code: `begin
+  var n := 5;
+  if n > 0 then
+    n += 1;
+  writeln(n);
+end.`
+  },
+  {
+    title: "Task 2: Even number",
+    text: "If n = 2 is even, multiply it by 10.",
+    expected: "Expected output: 20",
+    code: `begin
+  var n := 2;
+  if not odd(n) then
+    n *= 10;
+  writeln(n);
+end.`
+  },
+  {
+    title: "Task 3: Even or odd operation",
+    text: "If n = 9 is even, multiply by 3. Otherwise divide by 3.",
+    expected: "Expected output: 3",
+    code: `begin
+  var n := 9;
+  if not odd(n) then
+    n *= 3
+  else
+    n := n div 3;
+  writeln(n);
+end.`
+  },
+  {
+    title: "Task 4: Age message",
+    text: "For age = 18, print the correct message.",
+    expected: "Expected output: you can watch this movie",
+    code: `begin
+  var age := 18;
+  if age >= 18 then
+    writeln('you can watch this movie')
+  else if age < 10 then
+    writeln('you should watch the cartoon')
+  else
+    writeln('you can take a walk');
+end.`
+  },
+  {
+    title: "Task 5: Swap if A is greater than B",
+    text: "A = 6 and B = 2. If A is greater than B, swap them.",
+    expected: "Expected output: A = 2, B = 6",
+    code: `begin
+  var A := 6;
+  var B := 2;
+
+  if A > B then
+  begin
+    var temp := A;
+    A := B;
+    B := temp;
+  end;
+
+  writeln('A = ', A, ', B = ', B);
+end.`
+  }
+];
+
+function createTasks() {
+  const box = document.getElementById("tasks");
+
+  tasks.forEach((task, index) => {
+    const n = index + 1;
+    box.innerHTML += `
+      <div class="lesson-box">
+        <h2>${task.title}</h2>
+        <p>${task.text}</p>
+        <p><strong>${task.expected}</strong></p>
+
+        <div class="compiler-box">
+          <label>Write and run PascalABC.NET code here:</label>
+          <textarea id="compilerCode${n}" class="task-code">${task.code}</textarea>
+          <button class="btn primary" onclick="runCompiler('compilerCode${n}', 'compilerOutput${n}')">
+            Run PascalABC.NET
+          </button>
+          <pre id="compilerOutput${n}"></pre>
+        </div>
+      </div>
+    `;
+  });
+}
+
+async function runCompiler(textareaId, resultId) {
+  const code = document.getElementById(textareaId).value.trim();
+  const result = document.getElementById(resultId);
+
+  if (!code) {
+    result.textContent = "Please write code first.";
+    result.style.color = "red";
+    return;
+  }
+
+  result.textContent = "Compiling...";
+  result.style.color = "inherit";
+
+  try {
+    const response = await fetch(COMPILER_API, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ code: code })
+    });
+
+    const data = await response.json();
+    result.textContent = data.output || "No output";
+    result.style.color = "limegreen";
+  } catch (err) {
+    result.textContent = "Compiler connection failed. Make sure your PascalABC.NET API is running.";
+    result.style.color = "red";
+  }
+}
+
+createTasks();
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

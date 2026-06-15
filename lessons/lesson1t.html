@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1 | PascalLearn SFedU</title>
+    <link rel="stylesheet" href="../styles.css">
+      <script src="../script.js"></script>
+
+</head>
+<body>
+
+<header class="top-bar">
+    <div class="logo">
+        <span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+        <span class="logo-sub">SFedU</span>
+    </div>
+
+    <nav class="nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#lessons">Lessons</a>
+        <a href="../index.html#playground">Playground</a>
+        <a href="../index.html#quiz">Quiz</a>
+    </nav>
+
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section lesson-page">
+    <h1>Lesson 1: Introduction to Pascal</h1>
+    <p>Practice the basics of Pascal with 4 easy tasks.</p>
+
+    <div class="lesson-box">
+        <h2>Task 1</h2>
+        <p>Write a Pascal program that prints: <code>Hello, Pascal!</code></p>
+
+        <div class="compiler-box">
+            <label>Write and run PascalABC.NET code here:</label>
+            <textarea id="compilerCode1" class="task-code">begin
+  Println('Hello, Pascal!');
+end.</textarea>
+
+            <button class="btn primary" onclick="runCompiler('compilerCode1','compilerOutput1')">
+                Run PascalABC.NET
+            </button>
+
+            <pre id="compilerOutput1"></pre>
+        </div>
+
+        <div class="checker-box">
+            <label>Paste your Pascal code here:</label>
+            <textarea id="task1Code" class="task-code"></textarea>
+            <button class="btn primary" onclick="checkTask('lesson1_task1','task1Code','task1Result')">
+                Check Answer
+            </button>
+            <pre id="task1Result"></pre>
+        </div>
+    </div>
+
+    <div class="lesson-box">
+        <h2>Task 2</h2>
+        <p>Write a Pascal program that prints your name.</p>
+
+        <div class="compiler-box">
+            <label>Write and run PascalABC.NET code here:</label>
+            <textarea id="compilerCode2" class="task-code">begin
+  Println('Ahmed');
+end.</textarea>
+
+            <button class="btn primary" onclick="runCompiler('compilerCode2','compilerOutput2')">
+                Run PascalABC.NET
+            </button>
+
+            <pre id="compilerOutput2"></pre>
+        </div>
+
+        <div class="checker-box">
+            <label>Paste your Pascal code here:</label>
+            <textarea id="task2Code" class="task-code"></textarea>
+            <button class="btn primary" onclick="checkTask('lesson1_task2','task2Code','task2Result')">
+                Check Answer
+            </button>
+            <pre id="task2Result"></pre>
+        </div>
+    </div>
+
+    <div class="lesson-box">
+        <h2>Task 3</h2>
+        <p>
+            Write a Pascal program that prints two lines:
+            <br>
+            <code>I am learning Pascal</code>
+            <br>
+            <code>at SFedU</code>
+        </p>
+
+        <div class="compiler-box">
+            <label>Write and run PascalABC.NET code here:</label>
+            <textarea id="compilerCode3" class="task-code">begin
+  Println('I am learning Pascal');
+  Println('at SFedU');
+end.</textarea>
+
+            <button class="btn primary" onclick="runCompiler('compilerCode3','compilerOutput3')">
+                Run PascalABC.NET
+            </button>
+
+            <pre id="compilerOutput3"></pre>
+        </div>
+
+        <div class="checker-box">
+            <label>Paste your Pascal code here:</label>
+            <textarea id="task3Code" class="task-code"></textarea>
+            <button class="btn primary" onclick="checkTask('lesson1_task3','task3Code','task3Result')">
+                Check Answer
+            </button>
+            <pre id="task3Result"></pre>
+        </div>
+    </div>
+
+    <div class="lesson-box">
+        <h2>Task 4</h2>
+        <p>Write a Pascal program that prints: <code>Welcome to Pascal programming</code></p>
+
+        <div class="compiler-box">
+            <label>Write and run PascalABC.NET code here:</label>
+            <textarea id="compilerCode4" class="task-code">begin
+  Println('Welcome to Pascal programming');
+end.</textarea>
+
+            <button class="btn primary" onclick="runCompiler('compilerCode4','compilerOutput4')">
+                Run PascalABC.NET
+            </button>
+
+            <pre id="compilerOutput4"></pre>
+        </div>
+
+        <div class="checker-box">
+            <label>Paste your Pascal code here:</label>
+            <textarea id="task4Code" class="task-code"></textarea>
+            <button class="btn primary" onclick="checkTask('lesson1_task4','task4Code','task4Result')">
+                Check Answer
+            </button>
+            <pre id="task4Result"></pre>
+        </div>
+    </div>
+
+    <a href="../index.html#lessons" class="btn primary">Back to Lessons</a>
+</section>
+
+<footer class="footer">
+    <p>&copy; <span id="year"></span> PascalLearn SFedU</p>
+</footer>
+
+<script>
+const API_URL = "https://pascal-checker-api--hamadafor.replit.app/check-task";
+const COMPILER_API = "http://localhost:5009/api/run";
+
+async function runCompiler(textareaId, resultId) {
+    const code = document.getElementById(textareaId).value.trim();
+    const result = document.getElementById(resultId);
+
+    if (!code) {
+        result.textContent = "Please write code first.";
+        result.style.color = "red";
+        return;
+    }
+
+    result.textContent = "Compiling...";
+    result.style.color = "inherit";
+
+    try {
+        const response = await fetch(COMPILER_API, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                code: code
+            })
+        });
+
+        const data = await response.json();
+
+        result.textContent = data.output || "No output";
+        result.style.color = "limegreen";
+    } catch (err) {
+        result.textContent = "Compiler connection failed. Make sure your PascalABC.NET API is running.";
+        result.style.color = "red";
+        console.error(err);
+    }
+}
+
+async function checkTask(taskId, textareaId, resultId) {
+    const code = document.getElementById(textareaId).value.trim();
+    const result = document.getElementById(resultId);
+
+    if (!code) {
+        result.textContent = "Please paste your code first.";
+        result.style.color = "red";
+        return;
+    }
+
+    result.textContent = "Checking...";
+    result.style.color = "inherit";
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                taskId: taskId,
+                code: code
+            })
+        });
+
+        const data = await response.json();
+
+        if (!data.ok) {
+            result.textContent = data.error || "Server error";
+            result.style.color = "red";
+            return;
+        }
+
+        if (data.correct) {
+            result.textContent = "✅ Correct";
+            result.style.color = "limegreen";
+        } else {
+            result.textContent =
+                "❌ Wrong\n\nExpected:\n" +
+                (data.expected || "") +
+                "\n\nYour output:\n" +
+                (data.output || "");
+            result.style.color = "red";
+        }
+    } catch (err) {
+        result.textContent = "Connection failed.";
+        result.style.color = "red";
+        console.error(err);
+    }
+}
+
+const yearSpan = document.getElementById("year");
+if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+}
+</script>
+
+<script src="../script.js"></script>
+</body>
+</html>

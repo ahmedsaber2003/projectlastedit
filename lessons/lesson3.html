@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 3 | PascalLearn SFedU</title>
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<script src="../script.js"></script>
+<body>
+<header class="top-bar">
+<div class="logo">
+<span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+<span class="logo-sub">SFedU</span>
+</div>
+<nav class="nav">
+<a href="../index.html">Home</a>
+<a href="../index.html#lessons">Lessons</a>
+<a href="../quiz.html">Quiz</a>
+</nav>
+<button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+<section class="section lesson-page">
+<h1>Lesson 3: Boolean Expressions and Conditions</h1>
+<p>
+   This lesson introduces Boolean expressions in PascalABC.NET. Boolean
+   expressions are used to compare values and return one of two possible
+   results: <code>True</code> or <code>False</code>.
+</p>
+<div class="lesson-box">
+<h2>1. What Is a Boolean Expression?</h2>
+<p>
+     A Boolean expression is an expression that produces a logical value:
+<code>True</code> or <code>False</code>. Boolean expressions are often
+     built using comparison operators.
+</p>
+<p>For example:</p>
+<pre><code>a > 5</code></pre>
+<p>
+     This expression checks whether the value of <code>a</code> is greater
+     than 5.
+</p>
+<h3>Example: condition is True</h3>
+<pre><code>begin
+ var a := 6;
+ writeln(a > 5);
+end.</code></pre>
+<p>Output:</p>
+<pre><code>True</code></pre>
+<h3>Example: condition is False</h3>
+<pre><code>begin
+ var a := 5;
+ writeln(a > 5);
+end.</code></pre>
+<p>Output:</p>
+<pre><code>False</code></pre>
+</div>
+<div class="lesson-box">
+<h2>2. Comparison Operators</h2>
+<p>
+     Comparison operators are used to compare numbers and other values.
+     The result of every comparison is a Boolean value.
+</p>
+<ul>
+<li><code>&gt;</code> — greater than</li>
+<li><code>&gt;=</code> — greater than or equal to</li>
+<li><code>&lt;</code> — less than</li>
+<li><code>&lt;=</code> — less than or equal to</li>
+<li><code>=</code> — equal to</li>
+<li><code>&lt;&gt;</code> — not equal to</li>
+</ul>
+<h3>Example with greater than or equal</h3>
+<pre><code>begin
+ var a := 5;
+ writeln(a >= 5);
+end.</code></pre>
+<p>Output:</p>
+<pre><code>True</code></pre>
+</div>
+<div class="lesson-box">
+<h2>3. Logical Operations</h2>
+<p>
+     Conditions can be combined using logical operations:
+<code>not</code>, <code>and</code>, and <code>or</code>.
+</p>
+<ul>
+<li><code>not</code> changes True to False and False to True;</li>
+<li><code>and</code> returns True only when both conditions are True;</li>
+<li><code>or</code> returns True when at least one condition is True.</li>
+</ul>
+<p>
+     When a condition consists of several parts, each condition should be
+     written in round brackets.
+</p>
+<h3>Example with or</h3>
+<pre><code>begin
+ var year := 19;
+ writeln((year < 20) or (year > 18));
+end.</code></pre>
+<p>Output:</p>
+<pre><code>True</code></pre>
+<h3>Example with not and and</h3>
+<pre><code>begin
+ var a := 5;
+ writeln((not (a < 4)) and (7 > 5));
+end.</code></pre>
+<p>Output:</p>
+<pre><code>True</code></pre>
+</div>
+<div class="lesson-box">
+<h2>4. Printing Boolean Results</h2>
+<p>
+     In this lesson, conditions are checked without using the
+<code>if</code> statement. Instead, the result of the condition can be
+     printed directly using <code>writeln</code>, <code>write</code>, or
+<code>print</code>.
+</p>
+<h3>Example</h3>
+<pre><code>begin
+ var a := 5;
+ write(a >= 5);
+end.</code></pre>
+<p>Output:</p>
+<pre><code>True</code></pre>
+</div>
+<div class="lesson-box">
+<h2>5. The odd Function</h2>
+<p>
+PascalABC.NET provides the standard function <code>odd</code>.
+     It returns <code>True</code> if its argument is an odd integer and
+<code>False</code> otherwise.
+</p>
+<h3>Example</h3>
+<pre><code>begin
+ print(odd(5));
+ print(odd(6));
+end.</code></pre>
+<p>Result:</p>
+<pre><code>TrueFalse</code></pre>
+<p>
+     The function <code>odd</code> is useful when checking whether at least
+     one of two numbers is odd.
+</p>
+<h3>Example: at least one number is odd</h3>
+<pre><code>begin
+ var a := ReadInteger('Enter a: ');
+ var b := ReadInteger('Enter b: ');
+ print(odd(a) or odd(b));
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>6. Double Inequality</h2>
+<p>
+     A double inequality such as <code>A &lt; B &lt; C</code> should be
+     written as two separate comparisons connected by <code>and</code>.
+</p>
+<pre><code>(A < B) and (B < C)</code></pre>
+<h3>Example</h3>
+<pre><code>begin
+ var A := ReadInteger('Enter A: ');
+ var B := ReadInteger('Enter B: ');
+ var C := ReadInteger('Enter C: ');
+ print((A < B) and (B < C));
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>7. Working with Digits and Conditions</h2>
+<p>
+     Boolean expressions can also be combined with digit extraction.
+     For example, for a three-digit number, we can check whether the first
+     digit is less than the second and third digits.
+</p>
+<h3>Example</h3>
+<pre><code>begin
+ var n := ReadInteger('Enter a three-digit number: ');
+ var x := Abs(n);
+ var hundreds := x div 100;
+ var tens := (x mod 100) div 10;
+ var units := x mod 10;
+ print((hundreds < tens) and (hundreds < units));
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>8. Practice Tasks</h2>
+<ol>
+<li>
+       Two integers are given. Check whether the first number is greater than
+       the second.
+</li>
+<li>
+       Two integers are given. Check whether the first number is not equal to
+       the second.
+</li>
+<li>
+       Three integers A, B, and C are given. Check the double inequality
+<code>A &lt; B &lt; C</code>.
+</li>
+<li>
+       A three-digit integer is given. Check whether the first digit is less
+       than the second and third digits.
+</li>
+<li>
+       Two integers are given. Check whether at least one of them is odd.
+</li>
+</ol>
+<p>
+     In these tasks, do not use the <code>if</code> statement. Print only the
+     Boolean result: <code>True</code> or <code>False</code>.
+</p>
+</div>
+<div class="lesson-box">
+<h2>9. Important Notes</h2>
+<ul>
+<li>Boolean expressions return only <code>True</code> or <code>False</code>.</li>
+<li>Use round brackets when combining several conditions.</li>
+<li>Use <code>and</code> when all conditions must be true.</li>
+<li>Use <code>or</code> when at least one condition must be true.</li>
+<li>Use <code>not</code> to reverse a condition.</li>
+<li>Use <code>odd(n)</code> to check whether a number is odd.</li>
+</ul>
+</div>
+<div class="lesson-box">
+<h2>Quiz</h2>
+<p>
+     After studying this lesson, check your understanding using the Lesson 3 quiz.
+</p>
+<h3>
+<a href="../quiz3.html">Go to Lesson 3 Quiz</a>
+</h3>
+</div>
+<div class="lesson-box">
+<h2>Tasks</h2>
+<p>
+     Practice programming tasks for this lesson can be added on a separate task page.
+</p>
+<h3>
+<a href="lesson3t.html">Click here</a>
+</h3>
+</div>
+<a href="../index.html#lessons" class="btn primary">Back to Lessons</a>
+</section>
+<footer class="footer">
+<p>&copy; <span id="year"></span> PascalLearn SFedU</p>
+</footer>
+<script>
+ document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 2 Tasks | PascalLearn SFedU</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="logo"><span class="logo-main">Pascal</span><span class="logo-accent">Learn</span><span class="logo-sub">SFedU</span></div>
+  <nav class="nav">
+    <a href="../index.html">Home</a>
+    <a href="lesson2.html">Lesson 2</a>
+    <a href="../quiz2.html">Quiz</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section lesson-page">
+  <h1>Lesson 2 Tasks: div and mod</h1>
+  <p>Run each program and compare your output with the expected result.</p>
+
+  <div id="tasks"></div>
+
+  <a href="lesson2.html" class="btn primary">Back to Lesson 2</a>
+</section>
+
+<footer class="footer"><p>&copy; <span id="year"></span> PascalLearn SFedU</p></footer>
+
+<script>
+const COMPILER_API = "http://localhost:5009/api/run";
+
+const tasks = [
+  {
+    title: "Task 1: Centimeters to meters",
+    text: "A distance L = 250 centimeters is given. Find the number of full meters.",
+    expected: "Expected output: Full meters = 2",
+    code: `begin
+  var L := 250;
+  var meters := L div 100;
+  writeln('Full meters = ', meters);
+end.`
+  },
+  {
+    title: "Task 2: Kilograms to tons",
+    text: "A mass = 3500 kilograms is given. Find the number of full tons.",
+    expected: "Expected output: Full tons = 3",
+    code: `begin
+  var kg := 3500;
+  var tons := kg div 1000;
+  writeln('Full tons = ', tons);
+end.`
+  },
+  {
+    title: "Task 3: Digits of a two-digit number",
+    text: "For number 35, output right and left digits separated by comma.",
+    expected: "Expected output: 5, 3",
+    code: `begin
+  var n := 35;
+  var rightDigit := n mod 10;
+  var leftDigit := n div 10;
+  writeln(rightDigit, ', ', leftDigit);
+end.`
+  },
+  {
+    title: "Task 4: Sum and product of digits",
+    text: "For number 35, output the sum and product of its digits.",
+    expected: "Expected output: Sum = 8, Product = 15",
+    code: `begin
+  var n := 35;
+  var leftDigit := n div 10;
+  var rightDigit := n mod 10;
+  writeln('Sum = ', leftDigit + rightDigit, ', Product = ', leftDigit * rightDigit);
+end.`
+  },
+  {
+    title: "Task 5: Digits of a three-digit number",
+    text: "For number 123, output hundreds, tens, and units.",
+    expected: "Expected output: 1, 2, 3",
+    code: `begin
+  var n := 123;
+  var hundreds := n div 100;
+  var tens := (n mod 100) div 10;
+  var units := n mod 10;
+  writeln(hundreds, ', ', tens, ', ', units);
+end.`
+  }
+];
+
+function createTasks() {
+  const box = document.getElementById("tasks");
+
+  tasks.forEach((task, index) => {
+    const n = index + 1;
+    box.innerHTML += `
+      <div class="lesson-box">
+        <h2>${task.title}</h2>
+        <p>${task.text}</p>
+        <p><strong>${task.expected}</strong></p>
+
+        <div class="compiler-box">
+          <label>Write and run PascalABC.NET code here:</label>
+          <textarea id="compilerCode${n}" class="task-code">${task.code}</textarea>
+          <button class="btn primary" onclick="runCompiler('compilerCode${n}', 'compilerOutput${n}')">
+            Run PascalABC.NET
+          </button>
+          <pre id="compilerOutput${n}"></pre>
+        </div>
+      </div>
+    `;
+  });
+}
+
+async function runCompiler(textareaId, resultId) {
+  const code = document.getElementById(textareaId).value.trim();
+  const result = document.getElementById(resultId);
+
+  if (!code) {
+    result.textContent = "Please write code first.";
+    result.style.color = "red";
+    return;
+  }
+
+  result.textContent = "Compiling...";
+  result.style.color = "inherit";
+
+  try {
+    const response = await fetch(COMPILER_API, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ code: code })
+    });
+
+    const data = await response.json();
+    result.textContent = data.output || "No output";
+    result.style.color = "limegreen";
+  } catch (err) {
+    result.textContent = "Compiler connection failed. Make sure your PascalABC.NET API is running.";
+    result.style.color = "red";
+  }
+}
+
+createTasks();
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

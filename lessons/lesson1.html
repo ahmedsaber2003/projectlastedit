@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 | PascalLearn SFedU</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <script src="../script.js"></script>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="logo">
+    <span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+    <span class="logo-sub">SFedU</span>
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+  </div>
+
+  <nav class="nav">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#lessons">Lessons</a>
+    <a href="../index.html#playground">Playground</a>
+    <a href="../index.html#quiz">Quiz</a>
+  </nav>
+</header>
+
+<section class="section lesson-page">
+  <h1>Lesson 1: Introduction to PascalABC.NET</h1>
+  <p>
+    This lesson introduces the foundations of PascalABC.NET: variables,
+    assignment, arithmetic operations, input, output, formatted printing,
+    and swapping values between variables.
+  </p>
+
+  <div class="lesson-box">
+    <h2>1. Variables and Assigning Values</h2>
+    <p>
+      In PascalABC.NET, variables can be declared inside the program body.
+      You can declare a variable with an explicit type, or let Pascal infer
+      the type from the assigned value.
+    </p>
+
+    <h3>Example: explicit type</h3>
+    <pre><code>begin
+  var n: integer;
+  n := 1;
+  writeln(n);
+end.</code></pre>
+
+    <h3>Example: inferred type</h3>
+    <pre><code>begin
+  var n := 1;
+  writeln(n);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>2. Arithmetic Operations and Expressions</h2>
+    <p>
+      Pascal supports addition, subtraction, multiplication, and division.
+      You can write them in the standard form or use short operators.
+    </p>
+
+    <h3>Standard form</h3>
+    <pre><code>begin
+  var a := 6;
+  a := a + 2;
+  a := a - 2;
+  a := a * 3;
+  a := a / 2;
+  writeln(a);
+end.</code></pre>
+
+    <h3>Short form</h3>
+    <pre><code>begin
+  var a := 6;
+  a += 2;
+  a -= 2;
+  a *= 3;
+  a /= 2;
+  writeln(a);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>3. Data Input</h2>
+    <p>
+      There are several ways to read values in PascalABC.NET.
+    </p>
+
+    <h3>Method 1: read</h3>
+    <pre><code>begin
+  var n: integer;
+  read(n);
+  writeln('n = ', n);
+end.</code></pre>
+
+    <h3>Method 2: ReadInteger and ReadReal</h3>
+    <pre><code>begin
+  var n := ReadInteger();
+  var x := ReadReal();
+  writeln(n);
+  writeln(x);
+end.</code></pre>
+
+    <h3>Method 3: tuple assignment</h3>
+    <pre><code>begin
+  var n1, n2: integer;
+  (n1, n2) := (1, 2);
+  writeln(n1, ' ', n2);
+end.</code></pre>
+
+    <h3>Method 4: reading two integers at once</h3>
+    <pre><code>begin
+  var (n1, n2) := ReadInteger2;
+  writeln(n1, ' ', n2);
+end.</code></pre>
+
+    <h3>Prompting the user</h3>
+    <pre><code>begin
+  var x := ReadInteger('Enter x: ');
+  var y := ReadInteger('Enter y: ');
+  var res := x + y;
+  writeln('Result = ', res);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>4. Data Output</h2>
+    <p>
+      PascalABC.NET can print values using <code>writeln</code>,
+      <code>print</code>, and formatted output.
+    </p>
+
+    <h3>Using writeln</h3>
+    <pre><code>begin
+  var n: integer;
+  read(n);
+  n := n * n;
+  writeln('n = ', n);
+end.</code></pre>
+
+    <h3>Using print</h3>
+    <pre><code>begin
+  var n: integer;
+  read(n);
+  n := n * n;
+  print('n = ', n);
+end.</code></pre>
+
+    <h3>Formatted output with WritelnFormat</h3>
+    <pre><code>begin
+  var a := 1.2;
+  var b := 4;
+  var c := a + b;
+  WritelnFormat('f({0}, {1}) = {2}', a, b, c);
+end.</code></pre>
+
+    <h3>Formatted output with Print</h3>
+    <pre><code>begin
+  var x := ReadInteger('Enter x: ');
+  var y := ReadInteger('Enter y: ');
+  var res := x + y;
+  Print($'Sum of {x} and {y} is {res}');
+end.</code></pre>
+
+    <h3>Field width example</h3>
+    <pre><code>begin
+  var x := 6;
+  WritelnFormat('x = *{0,5}*', x);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>5. Swapping Variable Values</h2>
+    <p>
+      Values can be swapped using a temporary variable or by multiple assignment.
+    </p>
+
+    <h3>Initial values</h3>
+    <pre><code>var (x, y) := (3, 5);</code></pre>
+
+    <h3>Method 1: temporary variable</h3>
+    <pre><code>begin
+  var (x, y) := (3, 5);
+  var t := x;
+  x := y;
+  y := t;
+  writeln('x = ', x, ', y = ', y);
+end.</code></pre>
+
+    <h3>Method 2: multiple assignment</h3>
+    <pre><code>begin
+  var (x, y) := (3, 5);
+  (x, y) := (y, x);
+  writeln('x = ', x, ', y = ', y);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>6. Rules for Solving Tasks</h2>
+    <ul>
+      <li>Save each file using the required task file name.</li>
+      <li>Use meaningful variable names.</li>
+      <li>Add comments to make the code clear.</li>
+      <li>Write the task statement as a comment before the program.</li>
+      <li>Write the program output as a comment after the code.</li>
+    </ul>
+  </div>
+
+  <div class="lesson-box">
+    <h2>7. Sample Tasks Explained</h2>
+
+    <h3>Sample 1: evaluate an expression</h3>
+    <p>
+      Input values for <code>x</code>, <code>y</code>, and <code>z</code>,
+      then calculate the required expression and print the result.
+    </p>
+
+    <h3>Sample 2: perimeter of a square</h3>
+    <pre><code>begin
+  var a := ReadReal('please enter the side length of a square: ');
+  var p := 4 * a;
+  Print($'Perimeter P = {p}');
+end.</code></pre>
+
+    <h3>Another version</h3>
+    <pre><code>begin
+  PrintLn('please enter a side length of a square:');
+  var a: real;
+  readln(a);
+  var p := 4 * a;
+  Print('Perimeter P = ', p);
+end.</code></pre>
+
+    <h3>Sample 3: right triangle</h3>
+    <p>
+      Input two legs of a right triangle, then calculate the hypotenuse and perimeter.
+    </p>
+  </div>
+
+  <div class="lesson-box">
+      <h2>TASKS</h2>
+      <h3>
+          <a href="lesson1t.html">Click here</a>
+      </h3>
+    </div>
+
+</body>
+</html>

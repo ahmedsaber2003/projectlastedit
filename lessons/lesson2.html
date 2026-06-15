@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 2 | PascalLearn SFedU</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <script src="../script.js"></script>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="logo">
+    <span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+    <span class="logo-sub">SFedU</span>
+  </div>
+
+  <nav class="nav">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#lessons">Lessons</a>
+    <a href="../quiz.html">Quiz</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section lesson-page">
+  <h1>Lesson 2: Integers, div and mod Operators</h1>
+
+  <p>
+    This lesson explains integer division, the <code>div</code> operator,
+    the <code>mod</code> operator, and how these operations can be used
+    to extract digits from numbers.
+  </p>
+
+  <div class="lesson-box">
+    <h2>1. Integer Division with div</h2>
+    <p>
+      The <code>div</code> operation performs integer division. It returns
+      only the integer part of the division result.
+    </p>
+
+    <pre><code>10 div 2  = 5
+22 div 7  = 3
+65 div 10 = 6</code></pre>
+
+    <p>
+      The result of <code>N div K</code> shows how many full times
+      <code>K</code> fits inside <code>N</code>.
+    </p>
+
+    <h3>Example in PascalABC.NET</h3>
+    <pre><code>begin
+  var n := 22;
+  var k := 7;
+  var result := n div k;
+  writeln(result);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>2. Remainder with mod</h2>
+    <p>
+      The <code>mod</code> operation calculates the remainder after integer
+      division. If a number is divided evenly, the remainder is zero.
+    </p>
+
+    <pre><code>10 mod 2  = 0
+22 mod 7  = 1
+65 mod 10 = 5</code></pre>
+
+    <p>
+      The result of <code>N mod K</code> shows what remains after removing
+      the maximum number of full parts of size <code>K</code>.
+    </p>
+
+    <h3>Example in PascalABC.NET</h3>
+    <pre><code>begin
+  var n := 65;
+  var k := 10;
+  var result := n mod k;
+  writeln(result);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>3. Quotient and Remainder Formula</h2>
+    <p>
+      Any integer number can be represented using the quotient and remainder.
+      If:
+    </p>
+
+    <pre><code>d = N div K
+m = N mod K</code></pre>
+
+    <p>
+      then the original number can be restored using the formula:
+    </p>
+
+    <pre><code>N = d * K + m</code></pre>
+
+    <h3>Examples</h3>
+    <pre><code>10 div 2 = 5, 10 mod 2 = 0  =>  10 = 5 * 2 + 0
+22 div 7 = 3, 22 mod 7 = 1  =>  22 = 3 * 7 + 1
+65 div 10 = 6, 65 mod 10 = 5 => 65 = 6 * 10 + 5</code></pre>
+
+    <h3>PascalABC.NET example</h3>
+    <pre><code>begin
+  var n := 22;
+  var k := 7;
+
+  var d := n div k;
+  var m := n mod k;
+
+  writeln('Quotient = ', d);
+  writeln('Remainder = ', m);
+  writeln('Check: ', d * k + m);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>4. Standard Form of a Number</h2>
+    <p>
+      A number can be separated into digits using powers of 10. This is called
+      the standard form of a number.
+    </p>
+
+    <pre><code>123 = 1 * 100 + 2 * 10 + 3</code></pre>
+
+    <p>
+      In this example:
+    </p>
+
+    <ul>
+      <li><code>1</code> is the hundreds digit;</li>
+      <li><code>2</code> is the tens digit;</li>
+      <li><code>3</code> is the units digit.</li>
+    </ul>
+  </div>
+
+  <div class="lesson-box">
+    <h2>5. Getting Digits of a Three-Digit Number</h2>
+    <p>
+      For a three-digit number, <code>div</code> and <code>mod</code> can be
+      used to get each digit.
+    </p>
+
+    <h3>Hundreds digit</h3>
+    <pre><code>123 div 100 = 1</code></pre>
+
+    <h3>Tens digit</h3>
+    <pre><code>123 mod 100 = 23
+23 div 10 = 2</code></pre>
+
+    <p>So the complete expression is:</p>
+
+    <pre><code>(123 mod 100) div 10</code></pre>
+
+    <h3>Units digit</h3>
+    <pre><code>123 mod 10 = 3</code></pre>
+
+    <h3>Full PascalABC.NET example</h3>
+    <pre><code>begin
+  var n := 123;
+
+  var hundreds := n div 100;
+  var tens := (n mod 100) div 10;
+  var units := n mod 10;
+
+  writeln('Hundreds = ', hundreds);
+  writeln('Tens = ', tens);
+  writeln('Units = ', units);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>6. Working with Negative Numbers</h2>
+    <p>
+      Some tasks use negative numbers. In such cases, it is often useful to
+      work with the absolute value of the number when extracting digits.
+    </p>
+
+    <pre><code>begin
+  var n := -105;
+  var x := Abs(n);
+
+  var hundreds := x div 100;
+  var tens := (x mod 100) div 10;
+  var units := x mod 10;
+
+  writeln(units, ', ', tens, ', ', hundreds);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>7. Common Task Examples</h2>
+
+    <h3>Example 1: centimeters to meters</h3>
+    <p>
+      A distance in centimeters is given. To find the number of full meters,
+      use integer division by 100.
+    </p>
+
+    <pre><code>begin
+  var centimeters := ReadInteger('Enter distance in centimeters: ');
+  var meters := centimeters div 100;
+
+  writeln('Full meters = ', meters);
+end.</code></pre>
+
+    <h3>Example 2: kilograms to tons</h3>
+    <pre><code>begin
+  var kilograms := ReadInteger('Enter mass in kilograms: ');
+  var tons := kilograms div 1000;
+
+  writeln('Full tons = ', tons);
+end.</code></pre>
+
+    <h3>Example 3: age in months to years</h3>
+    <pre><code>begin
+  var months := ReadInteger('Enter age in months: ');
+  var years := months div 12;
+
+  writeln('Full years = ', years);
+end.</code></pre>
+
+    <h3>Example 4: sum and product of digits</h3>
+    <pre><code>begin
+  var n := ReadInteger('Enter a two-digit number: ');
+  var x := Abs(n);
+
+  var leftDigit := x div 10;
+  var rightDigit := x mod 10;
+
+  writeln('Sum = ', leftDigit + rightDigit);
+  writeln('Product = ', leftDigit * rightDigit);
+end.</code></pre>
+  </div>
+
+  <div class="lesson-box">
+    <h2>8. Rules for Solving Tasks</h2>
+    <ul>
+      <li>Save each file using the required task file name.</li>
+      <li>Use meaningful variable names.</li>
+      <li>Add comments to make the program clear.</li>
+      <li>Write the task statement as a comment before the program code.</li>
+      <li>Write the program output as a comment after the code.</li>
+      <li>Test your program with several input values.</li>
+    </ul>
+  </div>
+
+  <div class="lesson-box">
+    <h2>9. Practice Tasks</h2>
+
+    <ol>
+      <li>Convert centimeters to full meters using <code>div</code>.</li>
+      <li>Convert kilograms to full tons using <code>div</code>.</li>
+      <li>Convert age in months to full years.</li>
+      <li>Print the left and right digits of a two-digit number.</li>
+      <li>Find the sum and product of digits of a two-digit number.</li>
+      <li>Print all digits of a three-digit number.</li>
+      <li>Find the sum of digits of a three-digit number.</li>
+      <li>Create a two-digit number from two separate digits.</li>
+      <li>Swap digits of a two-digit number.</li>
+      <li>Perform cyclic digit shifts of a three-digit number.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-box">
+    <h2>Quiz</h2>
+    <p>
+      After studying this lesson, check your understanding using the Lesson 2 quiz.
+    </p>
+
+    <h3>
+      <a href="../quiz2.html">Go to Lesson 2 Quiz</a>
+    </h3>
+  </div>
+
+  <div class="lesson-box">
+    <h2>Tasks</h2>
+    <p>
+      Practice programming tasks for this lesson can be added on a separate task page.
+    </p>
+
+    <h3>
+      <a href="lesson2t.html">Click here</a>
+    </h3>
+  </div>
+
+  <a href="../index.html#lessons" class="btn primary">Back to Lessons</a>
+</section>
+
+<footer class="footer">
+  <p>&copy; <span id="year"></span> PascalLearn SFedU</p>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 4 | PascalLearn SFedU</title>
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<script src="../script.js"></script>
+<body>
+<header class="top-bar">
+<div class="logo">
+<span class="logo-main">Pascal</span><span class="logo-accent">Learn</span>
+<span class="logo-sub">SFedU</span>
+</div>
+<nav class="nav">
+<a href="../index.html">Home</a>
+<a href="../index.html#lessons">Lessons</a>
+<a href="../quiz.html">Quiz</a>
+</nav>
+<button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+<section class="section lesson-page">
+<h1>Lesson 4: Condition Operator and IF Statement</h1>
+<p>
+   This lesson explains conditional branching in PascalABC.NET using the
+<code>if</code> statement. Conditions allow a program to make decisions
+   and execute different instructions depending on whether a condition is
+<code>True</code> or <code>False</code>.
+</p>
+<div class="lesson-box">
+<h2>1. Short Form of the IF Statement</h2>
+<p>
+     The short form of the <code>if</code> statement executes one operator
+     only when the condition is true.
+</p>
+<pre><code>if condition then
+ operator</code></pre>
+<p>
+     If the condition is <code>True</code>, the operator after
+<code>then</code> is executed. If the condition is <code>False</code>,
+     the operator is skipped.
+</p>
+<h3>Example</h3>
+<pre><code>begin
+ var a := 5;
+ if a > 7 then
+   print(a - 1);
+ print(a);
+end.</code></pre>
+<p>
+     In this example, <code>a > 7</code> is false, so
+<code>print(a - 1)</code> is skipped. The last statement
+<code>print(a)</code> runs normally.
+</p>
+</div>
+<div class="lesson-box">
+<h2>2. Full Form of the IF Statement</h2>
+<p>
+     The full form of the <code>if</code> statement uses <code>else</code>.
+     The first operator is executed when the condition is true, and the
+     second operator is executed when the condition is false.
+</p>
+<pre><code>if condition then
+ operator1
+else
+ operator2</code></pre>
+<h3>Example</h3>
+<pre><code>begin
+ var a := 5;
+ if a > 7 then
+   print(a - 1)
+ else
+   print(a + 1);
+ print(a);
+end.</code></pre>
+<p>
+     Here, <code>a > 7</code> is false, so the program prints
+<code>a + 1</code>, which is <code>6</code>. Then it prints
+     the original value of <code>a</code>.
+</p>
+</div>
+<div class="lesson-box">
+<h2>3. Important Rule: No Semicolon Before else</h2>
+<p>
+     In PascalABC.NET, you should not write a semicolon before
+<code>else</code>.
+</p>
+<h3>Correct</h3>
+<pre><code>if a > 7 then
+ print(a - 1)
+else
+ print(a + 1);</code></pre>
+<h3>Wrong</h3>
+<pre><code>if a > 7 then
+ print(a - 1);
+else
+ print(a + 1);</code></pre>
+<p>
+     The semicolon before <code>else</code> is one of the most common mistakes
+     when learning conditional statements.
+</p>
+</div>
+<div class="lesson-box">
+<h2>4. Several Conditions</h2>
+<p>
+     A condition may contain more than one logical expression. In this case,
+     each condition should be written in round brackets.
+</p>
+<pre><code>if (year < 20) or (year > 18) then
+ print('condition is true');</code></pre>
+<p>
+     The logical operator <code>or</code> returns <code>True</code> if at
+     least one condition is true.
+</p>
+<h3>Example with and</h3>
+<pre><code>begin
+ var age := 18;
+ if (age >= 18) and (age < 60) then
+   print('adult');
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>5. begin..end Blocks</h2>
+<p>
+     If you need to execute more than one operator after <code>then</code>
+     or <code>else</code>, use a <code>begin..end</code> block.
+</p>
+<pre><code>if condition then
+begin
+ operator1;
+ operator2;
+end
+else
+begin
+ operator3;
+ operator4;
+end;</code></pre>
+<h3>Example</h3>
+<pre><code>begin
+ var a := 10;
+ if a > 0 then
+ begin
+   writeln('Positive number');
+   writeln('The value is ', a);
+ end
+ else
+ begin
+   writeln('Not positive');
+   writeln('The value is ', a);
+ end;
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>6. Odd and Even Numbers</h2>
+<p>
+     The function <code>odd(n)</code> returns <code>True</code> if
+<code>n</code> is odd. It can be used together with the
+<code>if</code> statement.
+</p>
+<pre><code>begin
+ var n := ReadInteger('Enter n: ');
+ if odd(n) then
+   writeln('odd')
+ else
+   writeln('even');
+end.</code></pre>
+<p>
+     To check whether a number is even, you can use
+<code>not odd(n)</code>.
+</p>
+<pre><code>begin
+ var n := ReadInteger('Enter n: ');
+ if not odd(n) then
+   writeln('even')
+ else
+   writeln('odd');
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>7. Changing a Number Using IF</h2>
+<p>
+     Conditional statements are often used to change the value of a variable
+     only in a certain case.
+</p>
+<h3>Example: add 1 if the number is positive</h3>
+<pre><code>begin
+ var n := ReadInteger('Enter n: ');
+ if n > 0 then
+   n += 1;
+ writeln(n);
+end.</code></pre>
+<h3>Example: multiply by 10 if the number is even</h3>
+<pre><code>begin
+ var n := ReadInteger('Enter n: ');
+ if not odd(n) then
+   n *= 10;
+ writeln(n);
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>8. Multiple Branches</h2>
+<p>
+     Sometimes a program must choose between several possible results.
+     This can be done using several <code>if</code> statements or
+<code>else if</code> style conditions.
+</p>
+<h3>Example: age category</h3>
+<pre><code>begin
+ var age := ReadInteger('Enter age: ');
+ if age >= 18 then
+   writeln('you can watch this movie')
+ else if age < 10 then
+   writeln('you should watch the cartoon')
+ else
+   writeln('you can take a walk');
+end.</code></pre>
+<h3>Example: student mark</h3>
+<pre><code>begin
+ var mark := ReadInteger('Enter mark: ');
+ if mark = 2 then
+   writeln('it''s very bad')
+ else if mark = 3 then
+   writeln('it''s bad')
+ else if mark = 4 then
+   writeln('it''s good')
+ else if mark = 5 then
+   writeln('it''s excellent')
+ else
+   writeln('such marks do not exist');
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>9. Swapping Values with IF</h2>
+<p>
+     The <code>if</code> statement can be used before swapping values.
+     For example, if <code>A</code> is greater than <code>B</code>, the
+     program can swap them.
+</p>
+<h3>Swap two variables</h3>
+<pre><code>begin
+ var A := ReadInteger('Enter A: ');
+ var B := ReadInteger('Enter B: ');
+ var temp := A;
+ A := B;
+ B := temp;
+ writeln('A = ', A);
+ writeln('B = ', B);
+end.</code></pre>
+<h3>Swap only if A is greater than B</h3>
+<pre><code>begin
+ var A := ReadInteger('Enter A: ');
+ var B := ReadInteger('Enter B: ');
+ if A > B then
+ begin
+   var temp := A;
+   A := B;
+   B := temp;
+ end;
+ writeln('A = ', A);
+ writeln('B = ', B);
+end.</code></pre>
+</div>
+<div class="lesson-box">
+<h2>10. Common Mistakes</h2>
+<ul>
+<li>Writing a semicolon before <code>else</code>.</li>
+<li>Forgetting <code>begin..end</code> when several operators are used.</li>
+<li>Forgetting round brackets in combined conditions.</li>
+<li>Using <code>=</code> for assignment instead of <code>:=</code>.</li>
+<li>Forgetting that statements after <code>if</code> run normally.</li>
+</ul>
+</div>
+<div class="lesson-box">
+<h2>11. Practice Tasks</h2>
+<ol>
+<li>If an integer is positive, add 1 to it and output the result.</li>
+<li>If an integer is even, multiply it by 10 and output the result.</li>
+<li>If an integer is even, multiply it by 3; otherwise divide it by 3.</li>
+<li>If an integer is positive, add 1; otherwise subtract 2.</li>
+<li>Classify a person's age and print the correct message.</li>
+<li>Print a message depending on a student's mark.</li>
+<li>Classify the time of day by the entered hour.</li>
+<li>If A and B are different, assign their sum to both variables; otherwise assign zero.</li>
+<li>Swap the values of A and B.</li>
+<li>If A is greater than B, swap their values.</li>
+</ol>
+</div>
+<div class="lesson-box">
+<h2>Quiz</h2>
+<p>
+     After studying this lesson, check your understanding using the Lesson 4 quiz.
+</p>
+<h3>
+<a href="../quiz4.html">Go to Lesson 4 Quiz</a>
+</h3>
+</div>
+<div class="lesson-box">
+<h2>Tasks</h2>
+<p>
+     Practice programming tasks for this lesson can be added on a separate task page.
+</p>
+<h3>
+<a href="lesson4t.html">Click here</a>
+</h3>
+</div>
+<a href="../index.html#lessons" class="btn primary">Back to Lessons</a>
+</section>
+<footer class="footer">
+<p>&copy; <span id="year"></span> PascalLearn SFedU</p>
+</footer>
+<script>
+ document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

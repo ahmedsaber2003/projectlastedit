@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 3 Tasks | PascalLearn SFedU</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="logo"><span class="logo-main">Pascal</span><span class="logo-accent">Learn</span><span class="logo-sub">SFedU</span></div>
+  <nav class="nav">
+    <a href="../index.html">Home</a>
+    <a href="lesson3.html">Lesson 3</a>
+    <a href="../quiz3.html">Quiz</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle">🌙</button>
+</header>
+
+<section class="section lesson-page">
+  <h1>Lesson 3 Tasks: Boolean Expressions</h1>
+  <p>Use only Boolean expressions and print the result: True or False.</p>
+
+  <div id="tasks"></div>
+
+  <a href="lesson3.html" class="btn primary">Back to Lesson 3</a>
+</section>
+
+<footer class="footer"><p>&copy; <span id="year"></span> PascalLearn SFedU</p></footer>
+
+<script>
+const COMPILER_API = "http://localhost:5009/api/run";
+
+const tasks = [
+  {
+    title: "Task 1: First number greater than second",
+    text: "Check whether 8 is greater than 5.",
+    expected: "Expected output: True",
+    code: `begin
+  var a := 8;
+  var b := 5;
+  print(a > b);
+end.`
+  },
+  {
+    title: "Task 2: Numbers are not equal",
+    text: "Check whether 10 is not equal to 10.",
+    expected: "Expected output: False",
+    code: `begin
+  var a := 10;
+  var b := 10;
+  print(a <> b);
+end.`
+  },
+  {
+    title: "Task 3: Double inequality",
+    text: "Check whether A < B < C for A = 3, B = 5, C = 9.",
+    expected: "Expected output: True",
+    code: `begin
+  var A := 3;
+  var B := 5;
+  var C := 9;
+  print((A < B) and (B < C));
+end.`
+  },
+  {
+    title: "Task 4: First digit is less than others",
+    text: "For number 123, check whether the first digit is less than the second and third.",
+    expected: "Expected output: True",
+    code: `begin
+  var n := 123;
+  var hundreds := n div 100;
+  var tens := (n mod 100) div 10;
+  var units := n mod 10;
+  print((hundreds < tens) and (hundreds < units));
+end.`
+  },
+  {
+    title: "Task 5: At least one number is odd",
+    text: "Check whether at least one of the numbers 12 and 7 is odd.",
+    expected: "Expected output: True",
+    code: `begin
+  var a := 12;
+  var b := 7;
+  print(odd(a) or odd(b));
+end.`
+  }
+];
+
+function createTasks() {
+  const box = document.getElementById("tasks");
+
+  tasks.forEach((task, index) => {
+    const n = index + 1;
+    box.innerHTML += `
+      <div class="lesson-box">
+        <h2>${task.title}</h2>
+        <p>${task.text}</p>
+        <p><strong>${task.expected}</strong></p>
+
+        <div class="compiler-box">
+          <label>Write and run PascalABC.NET code here:</label>
+          <textarea id="compilerCode${n}" class="task-code">${task.code}</textarea>
+          <button class="btn primary" onclick="runCompiler('compilerCode${n}', 'compilerOutput${n}')">
+            Run PascalABC.NET
+          </button>
+          <pre id="compilerOutput${n}"></pre>
+        </div>
+      </div>
+    `;
+  });
+}
+
+async function runCompiler(textareaId, resultId) {
+  const code = document.getElementById(textareaId).value.trim();
+  const result = document.getElementById(resultId);
+
+  if (!code) {
+    result.textContent = "Please write code first.";
+    result.style.color = "red";
+    return;
+  }
+
+  result.textContent = "Compiling...";
+  result.style.color = "inherit";
+
+  try {
+    const response = await fetch(COMPILER_API, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ code: code })
+    });
+
+    const data = await response.json();
+    result.textContent = data.output || "No output";
+    result.style.color = "limegreen";
+  } catch (err) {
+    result.textContent = "Compiler connection failed. Make sure your PascalABC.NET API is running.";
+    result.style.color = "red";
+  }
+}
+
+createTasks();
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
